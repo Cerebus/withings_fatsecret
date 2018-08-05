@@ -1,21 +1,24 @@
 from flask import Flask, request
 import fatsecret as fs
-import yaml
+import boto3
+import json
 
 app = Flask(__name__)
 
-lb_to_kg = 0.45359237
+secret_manager = boto3.client('secretsmanager')
+fatsecret_cred = json.loads(secret_manager.get_secret_value(
+    SecretId='Fatsecret_API_credential')['SecretString'])
+user_cred = json.loads(secret_manager.get_secret_value(
+    SecretId='Fatsecret_cerebus_credential')['SecretString'])
 
-with open('credentials.yml') as f:
-        config = yaml.load(f)
+config = {
+    'consumer_key': fatsecret_cred['fatsecret_consumer_key'],
+    'consumer_secret': fatsecret_cred['fatsecret_consumer_secret'],
+    'session_token': (user_cred['cerebus_token'], user_cred['cerebus_secret'])
+}
+
 
 @app.route('/', methods=['POST'])
 def api_root():
-    conn = fs.Fatsecret(
-        consumer_key=config['consumer_key'],
-        consumer_secret=config['consumer_secret'],
-        session_token=(config['user_token'], config['user_secret'])
-        )
+    conn = fs.Fatsecret(**config)
     return str(conn.weight_update(request.get_json()['weightkg']))
-
-
