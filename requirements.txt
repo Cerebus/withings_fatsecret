@@ -1,2 +1,3 @@
 fatsecret==0.2.3
 pyyaml==3.13
+Flask==1.0.2
