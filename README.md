@@ -34,10 +34,10 @@ The web function is triggered from [IFTTT](https://ifttt.com).
 ## Dependencies
 
 See `requirements.txt`:
-- (Flask)[http://flask.pocoo.org/] to run the server
-- (pyfatsecret)[https://github.com/walexnelson/pyfatsecret] to
+- [Flask](http://flask.pocoo.org/) to run the server
+- [pyfatsecret](https://github.com/walexnelson/pyfatsecret) to
   interact with the FatSecret Platform API
-- (PyYAML)[https://github.com/yaml/pyyaml] to manage configuration data
+- [PyYAML](https://github.com/yaml/pyyaml) to manage configuration data
 
 ## Store API keys and user tokens
 
